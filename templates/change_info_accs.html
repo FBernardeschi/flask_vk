@@ -27,7 +27,7 @@
                 <input type="text" name="city" class="form-control" placeholder="Город">
             </div>
         </div>
-        <input type="text" class="form-control mb-3" placeholder="Статус" maxlength="140">
+        <input type="text" class="form-control mb-3" name='status' placeholder="Статус" maxlength="140">
         <div class="col-lg-4 mb-3">
             <select name="sex" class="form-select mr-sm-2">
                 <option selected>Выберите пол</option>
@@ -52,7 +52,8 @@
     </form>
     {% for i in log %}
         {% if i['vk_account'] %}
-            <input class="form-control mb-3" type="text" placeholder='{{ i.vk_account["login"] }} - {{ i.vk_account["name"] }} {{ i.vk_account["last_name"] }}: г. {{ i.vk_account["city"] }}' readonly>
+            <input class="form-control mb-3" type="text"
+                   placeholder='{{ i.vk_account["login"] }} - данные изменены' readonly>
         {% else %}
             <input class="form-control mb-3" type="text" placeholder='{{ i }}' readonly>
         {% endif %}

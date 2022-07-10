@@ -12,17 +12,17 @@ proxy = {
     'https': 'https//77.236.238.33:1256'
 }
 
-USER_AGENT = 'Mozilla/5.0 (iPad; CPU OS 8_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12F69 Safari/600.1.4'
+USER_AGENT = 'Mozilla/5.0 (iPad; CPU OS 9_0 like Mac OS X) AppleWebKit/601.1.40 (KHTML, like Gecko) Version/9.0 Mobile/13A304 Safari/E7FBAF'
 
 city_id = {1: 'Москва', 2: 'Санкт-Петербург', 10: 'Волгоград', 49: 'Екатеринбург', 37: 'Владивосток'}
 
-def change_info(lst, first_name=None, last_name=None,
-                city=None, countre=None, relation=None,
-                sex=None, status=None):
+def change_info(lst, **par):
     log = []
     session = requests.Session()
     session.headers.update({'User-agent': USER_AGENT})
     # print(session.get('https://ipinfo.io/json', proxies=proxy).text)
+    params = {i: j for i, j in par.items() if j != ''}
+    print(params)
     for account in lst:
         print(account)
         login, password = account.split(':')
@@ -31,15 +31,16 @@ def change_info(lst, first_name=None, last_name=None,
             vk_session = VkApi(login, password)
             print(vk_session.auth(reauth=True), "авторизация")
             time.sleep(1.5)
-            random_city = random.choice(list(city_id))
-            response = vk_session.method('account.saveProfileInfo', {'first_name': first_name, 'last_name': last_name,
-                                                                     'city_id': random_city, 'country_id': 0,
-                                                                     'status': status})
-            print(response['name_request']['lang'])
-            if response['name_request']['lang']:
+            # random_city = random.choice(list(city_id))
+            print('До')
+            response = vk_session.method('account.saveProfileInfo', params)
+            print(response)
+            print('После')
+            print(response.get('name_request', False) == False)
+            if response.get('name_request', False) and response['name_request'].get('lang', False):
                 log.append(f'{login} - {response["name_request"]["lang"]}')
             else:
-                log.append({"vk_account": {'login': login, 'name': first_name, 'last_name': last_name, 'city': city_id[random_city]}})
+                log.append({"vk_account": {'login': login}})
         except:
             log.append(f'{login} - Неверный пароль или непредвиденная ошибка авторизации')
     return log
