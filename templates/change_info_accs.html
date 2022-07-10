@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Изменение информации{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form method="post">
+        {% with message_flash = get_flashed_messages() %}
+        {% if message_flash %}
+            {% for i in message_flash %}
+            <input class="form-control mb-3" type="text" placeholder='{{ i }}' readonly>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <textarea type="text" name="accs" id="accs" class="form-control mb-3" placeholder="login:pass&#10;login:pass&#10;login:pass"></textarea>
+        <div class="row mb-3">
+            <div class="col">
+                <input type="text" name="first_name" class="form-control" placeholder="Имя" maxlength="20">
+            </div>
+            <div class="col">
+                <input type="text" name="last_name" class="form-control" placeholder="Фамилия" maxlength="20">
+            </div>
+            <div class="col">
+                <input type="text" name="countre" class="form-control" placeholder="Страна">
+            </div>
+            <div class="col">
+                <input type="text" name="city" class="form-control" placeholder="Город">
+            </div>
+        </div>
+        <input type="text" class="form-control mb-3" placeholder="Статус" maxlength="140">
+        <div class="col-lg-4 mb-3">
+            <select name="sex" class="form-select mr-sm-2">
+                <option selected>Выберите пол</option>
+                <option value="1">Женский</option>
+                <option value="2">Мужской</option>
+            </select>
+        </div>
+        <div class="col-lg-4 mb-3">
+            <select name="relation" class="form-select mr-sm-2">
+                <option value="0" selected>Семейное положение</option>
+                <option value="1">Не женат/не замужем</option>
+                <option value="2">Есть друг/есть подруга</option>
+                <option value="3">Помолвлен/помолвлена</option>
+                <option value="4">Женат/замужем</option>
+                <option value="5">Всё сложно</option>
+                <option value="6">В активном поиске</option>
+                <option value="7">Влюблён/влюблена</option>
+                <option value="8">В гражданском браке</option>
+            </select>
+        </div>
+        <input type="submit" class="btn btn-primary mb-3">
+    </form>
+    {% for i in log %}
+        {% if i['vk_account'] %}
+            <input class="form-control mb-3" type="text" placeholder='{{ i.vk_account["login"] }} - {{ i.vk_account["name"] }} {{ i.vk_account["last_name"] }}: г. {{ i.vk_account["city"] }}' readonly>
+        {% else %}
+            <input class="form-control mb-3" type="text" placeholder='{{ i }}' readonly>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
