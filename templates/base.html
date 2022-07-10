@@ -10,10 +10,17 @@
 </head>
 <body>
     <nav class="navbar navbar-dark bg-dark justify-content-center mb-5">
-        <a class="text-white nav-link" href="index">Главная</a>
-        <a class="nav-link text-white bg-dark" href="change_info_accs">Смена данных</a>
-        <a class="link-warning nav-link" href="#">Очистка стены</a>
-        <a class="link-warning nav-link" href="#">Массовый ЧС</a>
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="static/img/VK.svg" alt="Logo" width="50" height="35">
+            </a>
+            <div class="justify-content-center navbar">
+                <a class="text-white nav-link" href="index">Главная</a>
+                <a class="nav-link text-white bg-dark" href="change_info_accs">Смена данных</a>
+                <a class="link-warning nav-link" href="#">Очистка стены</a>
+                <a class="link-warning nav-link" href="#">Массовый ЧС</a>
+            </div>
+        </div>
     </nav>
     {% block content %}{% endblock %}
 </body>
