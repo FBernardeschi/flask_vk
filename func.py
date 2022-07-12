@@ -29,7 +29,7 @@ def change_info(lst, **par):
         print(login, password)
         try:
             vk_session = VkApi(login, password)
-            print(vk_session.auth(reauth=True), "авторизация")
+            print(vk_session.auth(reauth=True), "Авторизация")
             time.sleep(1.5)
             # random_city = random.choice(list(city_id))
             print('До')
@@ -44,3 +44,34 @@ def change_info(lst, **par):
         except:
             log.append(f'{login} - Неверный пароль или непредвиденная ошибка авторизации')
     return log
+
+
+def fun_clean_wall(account):
+    session = requests.Session()
+    session.headers.update({'User-agent': USER_AGENT})
+    print(account)
+    print(":" in account)
+    if ":" in account:
+        login, password = account.split(":")
+        try:
+            vk_session = VkApi(login, password)
+            print(vk_session.auth(), "Авторизация")
+            time.sleep(1.5)
+            posts = vk_session.method('wall.get', {'count': 10})
+            print(posts)
+            if posts['count'] == 0:
+                return "Стена уже очищена"
+            else:
+                owner_id = posts["items"][0]['owner_id']
+                print(owner_id)
+                while (posts['count'] != 0):
+                    for i in posts['items']:
+                        print(i['id'])
+                        print(vk_session.method('wall.delete', {"owner_id": owner_id, 'post_id': i['id']}))
+                        time.sleep(0.5)
+                    posts = vk_session.method('wall.get', {'count': 30})
+                return "Стена успешно очищена"
+        except:
+            return "Ошибка авторизации"
+    else:
+        return "Необходим разделитель : "

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, flash
-from func import change_info
+from func import change_info, fun_clean_wall
 
 
 app = Flask(__name__)
@@ -34,6 +34,16 @@ def change_info_accs():
         return render_template('change_info_accs.html')
     else:
         return render_template('change_info_accs.html')
+
+@app.route('/clean_wall', methods=['POST', 'GET'])
+def clean_wall():
+    account = request.form.get('account')
+    if request.method == 'POST':
+        print(account)
+        flash(fun_clean_wall(account))
+        return render_template('clean_wall.html')
+    else:
+        return render_template('clean_wall.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
