@@ -68,7 +68,7 @@ def fun_clean_wall(account):
                     for i in posts['items']:
                         print(i['id'])
                         print(vk_session.method('wall.delete', {"owner_id": owner_id, 'post_id': i['id']}))
-                        time.sleep(0.5)
+                        time.sleep(0.3)
                     posts = vk_session.method('wall.get', {'count': 30})
                 return "Стена успешно очищена"
         except:

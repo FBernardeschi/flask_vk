@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Очистка стены{% endblock %}
+{% block title %}Добавить запись{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -11,9 +11,10 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    <form method="post">
-        <input type="text" name="account" class='form-control mb-3 col-lg-3' placeholder="login:pass">
-        <input type="submit" class="btn btn-primary mb-3" value="Очистить">
+    <form action="" method="post">
+        <input type="text" name="name" class="form-control mb-3" placeholder="Заголовок">
+        <textarea name="post" class="form-control mb-3" placeholder="Запись"></textarea>
+        <input type="submit" class="btn btn-primary mb-3" value="Добавить">
     </form>
 </div>
 {% endblock %}
