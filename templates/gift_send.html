@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Слив подарков{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form action="" method="post">
+        <div class="row mb-3">
+            <div class="col-lg-3">
+                <textarea class="form-control" name="accounts" id="accounts" placeholder="login:pass"></textarea>
+            </div>
+            <div class="col-lg-3">
+                <input type="text" name='user' class="form-control" placeholder="id получателя">
+            </div>
+            <div class="col-lg-3">
+                <input type="text" name='gift' class="form-control" placeholder="id подарка">
+            </div>
+            <div class="col-lg-3">
+                <select name="anon" id="anon" class="form-select">
+                    <option value="2">анонимно</option>
+                    <option value="0">не анонимно</option>
+                </select>
+            </div>
+        </div>
+        <textarea name="message" type="text" class="form-control mb-3 col-lg-4" placeholder="Сообщение" maxlength="150"></textarea>
+        <div class="mb-3">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="True" name="one" id="flexCheckDefault" checked>
+              <label class="form-check-label" for="flexCheckDefault">
+                Один (с каждого аккаунта)
+              </label>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary mb-3" value="Начать">
+    </form>
+    {% with message_flash = get_flashed_messages() %}
+        {% if message_flash %}
+            {% for i in message_flash[0] %}
+            <input class="form-control mb-3" type="text" placeholder='{{ i }}' readonly>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}

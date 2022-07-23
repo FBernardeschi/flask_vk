@@ -52,10 +52,9 @@ def fun_clean_wall(account):
     print(account)
     print(":" in account)
     if ":" in account:
-        login, password = account.split(":")
+        login, password = account.split(':')
         try:
             vk_session = VkApi(login, password)
-            print(vk_session.auth(), "Авторизация")
             time.sleep(1.5)
             posts = vk_session.method('wall.get', {'count': 10})
             print(posts)
@@ -75,3 +74,26 @@ def fun_clean_wall(account):
             return "Ошибка авторизации"
     else:
         return "Необходим разделитель : "
+
+def gift_sender(accounts, id_user, id_gift, anon, message=':3'):
+    lst = []
+    for acc in accounts:
+        print(acc)
+        login, password = acc.split(':')
+        response = requests.get(f'https://oauth.vk.com/token?grant_type=password&client_id=2274003&client_secret=hHbZxrka2uZ6jB1inYsH&username={login}&password={password}&v=5.131&2fa_supported=1')
+        print(response.json())
+        if 'error_description' in response.json():
+            lst.append(f'{login} - {response.json()["error_description"]}')
+        else:
+            token = response.json()['access_token']
+            try:
+                vk_session = VkApi(token=token)
+                #print(vk_session.auth(reauth=True), "Авторизация")
+                print(id_gift, id_user)
+                time.sleep(0.5)
+                #print(vk_session.method('gifts.send', {'user_ids': id_user, 'gift_id': id_gift,
+                #                                          'guid': 10, 'privacy': anon, 'message': message}))
+                lst.append(f'{login} - подарки отправлены')
+            except:
+                return 'Неизвестная ошибка'
+    return lst

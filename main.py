@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, flash, g
-from func import change_info, fun_clean_wall
+from func import change_info, fun_clean_wall, gift_sender
 from FDataBase import FDataBase
 import sqlite3
 import os
@@ -89,6 +89,24 @@ def clean_wall():
         return render_template('clean_wall.html')
     else:
         return render_template('clean_wall.html')
+
+@app.route('/gift_send', methods=['POST', 'GET'])
+def gift_send():
+    if request.method == 'POST':
+        accs = request.form.get('accounts')
+        print(accs)
+        if accs and ':' in accs:
+            accs = accs.split()
+            id_user = request.form.get('user')
+            id_gift = request.form.get('gift')
+            anon = request.form.get('anon')
+            one = request.form.get('one')
+            message = request.form.get('message')
+            flash(gift_sender(accs, id_user, id_gift, anon, one, message))
+            return render_template('gift_send.html')
+        return render_template('gift_send.html')
+    else:
+        return render_template('gift_send.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
