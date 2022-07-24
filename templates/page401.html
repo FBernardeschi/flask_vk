@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Ошибка авторизации{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <h4>Вы пытаетесь получить доступ к функциям доступным только Администраторам,
+        <a href="{{ url_for('login') }}">авторизуйтесь</a> или перейдите на <a href="{{ url_for('index') }}">главную
+            страницу</a></h4>
+    </div>
+{% endblock %}

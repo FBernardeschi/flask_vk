@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, flash, g
+from flask import Flask, render_template, url_for, request, flash, g, session, redirect, abort
 from func import change_info, fun_clean_wall, gift_sender
 from FDataBase import FDataBase
 import sqlite3
@@ -42,6 +42,8 @@ def close_db(error):
 
 @app.route('/add_post', methods=['POST', 'GET'])
 def addPost():
+    if 'userLogged' not in session:
+        abort(401)
     print(get_db())
     db = get_db()
     dbase = FDataBase(db)
@@ -107,6 +109,19 @@ def gift_send():
         return render_template('gift_send.html')
     else:
         return render_template('gift_send.html')
+
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    if 'userLogged' in session:
+        return redirect(url_for('addPost'))
+    elif request.method == 'POST' and request.form['username'] == 'admin' and request.form['psw'] == 'admin':
+        session['userLogged'] = request.form['username']
+        return redirect(url_for('addPost'))
+    return render_template('login.html')
+
+@app.errorhandler(401)
+def notAuth(error):
+    return render_template('page401.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

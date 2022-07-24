@@ -80,6 +80,8 @@ def gift_sender(accounts, id_user, id_gift, anon, message=':3'):
     for acc in accounts:
         print(acc)
         login, password = acc.split(':')
+        session = requests.Session()
+        session.headers.update({'User-agent': USER_AGENT})
         response = requests.get(f'https://oauth.vk.com/token?grant_type=password&client_id=2274003&client_secret=hHbZxrka2uZ6jB1inYsH&username={login}&password={password}&v=5.131&2fa_supported=1')
         print(response.json())
         if 'error_description' in response.json():
