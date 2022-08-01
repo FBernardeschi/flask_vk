@@ -53,7 +53,7 @@
     {% for i in log %}
         {% if i['vk_account'] %}
             <input class="form-control mb-3" type="text"
-                   placeholder='{{ i.vk_account["login"] }} - данные изменены' readonly>
+                   placeholder='{{ i.vk_account["login"] }} - Данные изменены' readonly>
         {% else %}
             <input class="form-control mb-3" type="text" placeholder='{{ i }}' readonly>
         {% endif %}

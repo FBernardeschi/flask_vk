@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Выгрузка ID из беседы{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <form action="" method="POST">
+        {% with message_flash = get_flashed_messages() %}
+        {% if message_flash %}
+            {% for i in message_flash %}
+            <input class="form-control mb-3" type="text" placeholder='{{ i }}' readonly>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <input type="text" class="form-control mb-3" name="account" placeholder="login:pass">
+        <input type="text" class="form-control mb-3" name="chat_id" placeholder="ID беседы 'число в адресной строке после ?sel=c' ">
+        <input type="submit" class="btn btn-primary mb-3" value="Выгрузить">
+        <div class="bg-body shadow-sm p-4" style="border-radius: 21px 21px 21px 21px;">
+        {% for i in users %}
+            <p class="m-1">{{ i }}</p>
+        {% endfor %}
+        </div>
+    </form>
+</div>
+
+{% endblock %}

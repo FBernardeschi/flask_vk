@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, flash, g, session, redirect, abort
-from func import change_info, fun_clean_wall, gift_sender
+from func import change_info, fun_clean_wall, gift_sender, chat_ids_out
 from FDataBase import FDataBase
 import sqlite3
 import os
@@ -118,6 +118,22 @@ def login():
         session['userLogged'] = request.form['username']
         return redirect(url_for('addPost'))
     return render_template('login.html')
+
+@app.route('/chat_ids', methods=['POST', 'GET'])
+def chat_ids():
+    if request.method == 'POST':
+        account = request.form.get('account')
+        chat_id = request.form.get('chat_id')
+        print(account)
+        if ':' in account:
+            users = chat_ids_out(account, chat_id)
+            return render_template('chat_ids.html', users=users)
+        else:
+            flash('Необходим разделитель : ')
+            return render_template('chat_ids.html')
+
+        return render_template('chat_ids.html')
+    return render_template('chat_ids.html')
 
 @app.errorhandler(401)
 def notAuth(error):
